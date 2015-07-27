@@ -17,6 +17,3 @@ for k,v in wordcount.items():
       print k
       print "====="
       print v
-
-      #Regular expression for data an time in whatsapp chat
-      #([1-9][1-9]:[1-9]+[pm/am]+,+ [1-9] [A-Z][a-z][a-z] - )
