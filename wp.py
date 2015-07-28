@@ -1,22 +1,61 @@
+import datetime
 import re
-#!/usr/bin/python
-file=open("B:\work\whatsapp app\_biginput.txt","r+")
-wordcount={}
-for word in file.read().split():
-    if word not in wordcount:
-    	matchObj = re.match( r'(\d+:\d+)(pm|am), \d+ \w+',word, re.M|re.I)
-        if matchObj:
-   			print "match --> matchObj.group() : ", matchObj.group()
-		else:
-   			print "No match!!"
-        wordcount[word] = 1
-    else:
-        wordcount[word] += 1
-for k,v in wordcount.items():
-    if (v>500):
-      print k
-      print "====="
-      print v
+timeObj = {}
+count = 0
+count2 = 0
+n=0
+with open ("B:\work\whatsapp_app\_smallinput.txt") as f:
+	for line in f:
+		count2 += 1
+		# print "Count2: ", count2
+		line = line.replace(",", "")
+		line = line.replace("Apr", "4")
+		matchObj = re.match( r'(\d+:\d+)(pm|am) \d+ \d+',line, re.M|re.I)
+		if matchObj:
+			timeObj[count] = datetime.datetime.strptime(matchObj.group(),'%I:%M%p %d %m') 
+			print timeObj[count]
+			print matchObj.group()
+			count += 1
+			# print "Count1: ",count
+		# if ((count2-n)!=count):
+		# 	print "count1",count
+		# 	print "count2",count2
+		# 	n+=1
+		# 	print "-----"
+		# print n
+			
+			
+		# else: 
+		# 	print "no match found" 
+		# 	#print count
+			# if (count == 154):
+			# 	timediff = timeObj[153]-timeObj[0]
+			# 	print timediff
 
-      #Regular expression for data an time in whatsapp chat
-      #([1-9][1-9]:[1-9]+[pm/am]+,+ [1-9] [A-Z][a-z][a-z] - )
+			# print " ", matchObj.group()
+
+		# print line
+
+#Working demo only with time after text modification
+# textfile = open("B:\work\whatsapp_app\_smallinput.txt","r+")
+# timeObj = {}
+# count = 0
+# for word in textfile.read().split():
+# 	time = re.match(r'((\d+:\d+)(pm|am),)',word)
+# 	if time:
+# 		word=word.replace(",","")
+# 		print word
+# 		timeObj[count] = datetime.datetime.strptime(word,'%I:%M%p')
+# 		count = count + 1
+# 		print "-------------"
+# 		print count
+# 		if count == 100:
+# 			timediff = timeObj[99]-timeObj[0]
+# 			print timediff
+# 		# continue
+# 	# print word
+# 	if (count==100):
+# 		break
+
+
+#regular expression of date (\d+:\d+)(pm|am),
