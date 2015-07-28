@@ -16,13 +16,13 @@ with open ("B:\work\whatsapp_app\_smallinput.txt") as f:
 			print timeObj[count]
 			print matchObj.group()
 			count += 1
-			# print "Count1: ",count
-		# if ((count2-n)!=count):
-		# 	print "count1",count
-		# 	print "count2",count2
-		# 	n+=1
-		# 	print "-----"
-		# print n
+			print "Count1: ",count
+		if ((count2-n)!=count):
+			print "count1",count
+			print "count2",count2
+			n+=1
+			print "-----"
+		print n
 			
 			
 		# else: 
