@@ -6,13 +6,27 @@ timeObj = {}
 count = 0
 count2 = 0
 n = 0
+start = True
 currentMonth = 0 
 previousMonth = 0
 chatperMonth={}
-monthval=0 #i for month array
-start = True
 monthDict={}
+
+
+
 chatCount = 0
+chatCountDay = 0
+chatperDay = {}
+
+chatCountMin = 0
+currentMin = 0
+previousMin = 0
+chatperMin = {}
+
+#temp
+fucnTest ={}
+chatperX = {}
+
 
 with open ("B:\work\whatsapp_app\_smallinput.txt") as f:
 	for line in f:
@@ -26,49 +40,103 @@ with open ("B:\work\whatsapp_app\_smallinput.txt") as f:
 			datetime.datetime.strptime(matchObj.group(),'%I:%M%p %d %m') 
 			s = matchObj.group()		
 			timeObj[count] = matchObj.group()
-			print timeObj[count]
-			print "value s = ",s.split()
-			# print timeObj[count]
-			#to find the current month and test current and perivious month
-			strSize = len(matchObj.group()) - 1 
-			print matchObj.group()[strSize-3]
-			#if loop is just starting
-			if start:
-				currentMonth  = matchObj.group()[strSize]
-				previousMonth = matchObj.group()[strSize]
-			else:
-				currentMonth = matchObj.group()[strSize]
+			#print timeObj[count]
+			s = s.split()
 
-			print "current = ", currentMonth
-			print "perivious = ", previousMonth
+			def chatCounter(current, previous, listIndex):
+				if (current != previous):
+					previous= s[listIndex]
+					chatCount = 0
+				else:
+					chatCount += 1
+					chatperX[current] = chatCount
+				return chatperX
+
+
+			#s[0]= time s[1]=date s[2]=month.
+			# print "value s = ",s
+			# print timeObj[count]
+
+			#Code to find number of chat perday and permonth
+			#when code execute 1st time start is TRUE
+			if start:
+				currentMin    = s[0]
+				previousMin  = s[0]
+
+				currentMonth  = s[2]
+				previousMonth = s[2]
+
+				currentDate   = s[1]
+				periviousDate = s[1]
+
+			else:
+				currentMin   = s[0]
+				currentDate  = s[1]
+				currentMonth = s[2]
+				
+			#just for debugging :)
+			# print "current = ", currentMonth
+			# print "perivious = ", previousMonth
+			# print "current Date = ", currentDate
+			# print "periviousDate = ", periviousDate
+			#to count number of chat per day
+			# print "current  = ", currentMonth
+			# print "previous = ", previousMonth
+
+			#fucnTest = chatCounter(currentMonth, previousMonth, 0)
+			#Chat count per Min
+			if (currentMin != previousMin):
+				previousMin = s[0]
+				chatCountMin = 0
+			else:
+				chatCountMin += 1
+				chatperMin[currentMin] = chatCountMin;
 			
+			#Chat count per Date
+			if (currentDate != periviousDate):
+				periviousDate = s[1]
+				chatCountDay  = 0
+			else:
+				chatCountDay += 1
+				chatperDay[currentDate] = chatCountDay;
+
+			#Chat count per Month
 			if (currentMonth != previousMonth):
 				#This code block reset all he coding after each month
-				monthval +=1
-				print "month val = ", monthval
-				previousMonth = matchObj.group()[strSize]
-				chatCount = 0
+				previousMonth = s[2]
+				chatCount     = 0
 				# print "chatting per month", chatperMonth
 			else:
 				chatCount += 1
-				chatperMonth[monthval] = chatCount
+				chatperMonth[currentMonth] = chatCount
+			
+				
+
 			#creating dictnory for each month
-			monthDict[monthval]=previousMonth
-			print monthDict
-			print currentMonth
+			# monthDict[currentMonth]=previousMonth
+			# print monthDict
+			# print currentMonth
 			#restting start for false after 1st execution
-			start = False
+			start  = False
 			count += 1
 			# print "Count1: ",count
-		if ((count2-n)!=count):
-			print "count1",count
-			print "count2",count2
-			n+=1
-			print "-----"
+		# if ((count2-n)!=count):
+		# 	print "count1",count
+		# 	print "count2",count2
+		# 	n+=1
+		# 	print "-----"
 
 		# print n
+
 	print "Chatting per month = ", chatperMonth	
-			
+	# print "date = ",s[1]
+	# print "Chatting per day = ", chatperDay[0]
+	print "Chatting per day = ", chatperDay
+	print "Chatting per min = ", chatperMin
+
+	for  k,v in chatperDay.items():
+	 	print k , v 
+	print "function test values= ", fucnTest
 		# else: 
 		# 	print "no match found" 
 		# 	#print count
