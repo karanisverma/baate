@@ -1,6 +1,6 @@
 """This is class based implimentation of of wp.py python file of this project."""
 # refer it to make class itrable = http://stackoverflow.com/questions/739882/iterating-over-object-instances-of-a-given-class-in-python
-#NOTE : Key error is occuring because there is no else condition on newUser segment of code, use userList to find out existing object in list and append new timeObject in the perticuller object.
+#NOTE : Key error is occuring because there is no else condition on newUser[userNumber] segment of code, use userList to find out existing object in list and append new timeObject in the perticuller object.
 import datetime
 import re
 
@@ -27,6 +27,9 @@ chatperMin = {}
 mostChatpermin = 0
 chatperDaywithMin = {}
 userList = []
+userNumber = 0
+newUser = {}
+sameUserSaying = 0
 output_file = open("Output.txt", "w")
 #function defination
 def testFun(self, name):
@@ -121,20 +124,30 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 				# print timeObj[count].time()
 
 			if (currentUser != previousUser):
+				print "Use Changed"
 				if currentUser not in userList:
 					userList.append(currentUser)
 					previousUser = currentUser
-					newUser = currentUser
-					newUser = User()
-					newUser.name = currentUser
-					newUser.userdateTime[newUser.userCount] = timeObj[count]
-					newUser.userCount += 1
+					newUser[userNumber] = currentUser
+					newUser[userNumber] = User()
+					newUser[userNumber].name = currentUser
+					newUser[userNumber].userdateTime[newUser[userNumber].userCount] = timeObj[count]
+					newUser[userNumber].userCount += 1
+					userNumber += 1
 				else:
-					#keyerro
-
-
-
-					# print newUser.name
+					#match current user with the list user name
+					tmpUserNum = 0
+					for existingUser in userList:
+						for user in User.__iter__(newUser[tmpUserNum]):
+							# if contidion to chack temp user number with existing user
+							if (tmpUserNum<userNumber and  existingUser == newUser[tmpUserNum].name ):
+								newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount] = timeObj[count]
+								newUser[tmpUserNum].userCount += 1
+								tmpUserNum += 1
+			else:
+				#write else condition for condition when same user is saying something in continuation  
+				print"Same User is saything something"
+				sameUserSaying += 1
 
 			if (currentMin != previousMin):
 				previousMin = timeObj[count].time()
@@ -171,11 +184,18 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 			mostChatperminTime = k
 	print "Most Chat per Minute = ", mostChatpermin
 	print "Most Chat per Time = ", mostChatperminTime
+	tmpUserNum = 0
+	for user in User.__iter__(newUser[tmpUserNum]):
+		if (tmpUserNum < userNumber):
+			print newUser[tmpUserNum].name
+			print newUser[tmpUserNum].userCount
+			#print newUser[tmpUserNum].userdateTime
+			tmpUserNum += 1
+	print sameUserSaying
 
-	for user in User.__iter__(newUser):
-		for i in timeObj:
-			# print timeObj[i]
-			print newUser.userdateTime[i]
-			print newUser.name
-			print count
-			print userList
+			# for i in timeObj:
+			# 	# print timeObj[i]
+			# 	print newUser[userNumber].userdateTime[i]
+			# 	print newUser[userNumber].name
+			# 	print count
+			# 	print userList
