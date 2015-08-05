@@ -1,5 +1,6 @@
-"""This is class based implimentation of of wp.py python file of this project. kuch smajhe :P"""
+"""This is class based implimentation of of wp.py python file of this project."""
 # refer it to make class itrable = http://stackoverflow.com/questions/739882/iterating-over-object-instances-of-a-given-class-in-python
+#NOTE : Key error is occuring because there is no else condition on newUser segment of code, use userList to find out existing object in list and append new timeObject in the perticuller object.
 import datetime
 import re
 
@@ -55,18 +56,20 @@ supi.asignFun2(supi.name)
 # check = karan.asignFun(karan.name)
 
 """--------------------------------"""
-class IterRegistry(type):
-    def __iter__(cls):
-        return iter(cls._registry)
+# class IterRegistry(type):
+#     def __iter__(cls):
+#         return iter(cls._registry)
+
 
 class User(object):
-	__metaclass__ = IterRegistry
-	_registry = []
-	userName=0
-	Year={}
-	Month={}
-	Day={}
-	Time={}
+	# __metaclass__ = IterRegistry
+	userName = 0
+	userdateTime = {}
+	userCount = 0
+	def __iter__(self):
+		for user in dir(User):
+			if not user.startswith("__"):
+				yield user
 
 # Main busniess logic of program sort of main body
 with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
@@ -78,29 +81,44 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 		matchObj = re.match( r'(\d+:\d+)(pm|am) \d+ \d+ - \w+',line, re.M|re.I)
 		if matchObj:
 			s = matchObj.group()		
-			timeObj[count] = matchObj.group()
-			# print timeObj[count] #for debuggin
+			# timeObj[count][count] = matchObj.group()
+			# print timeObj[count][count] #for debuggin
 			s = s.split()
 			# print s #for debuggin
-			temp = s[0] + " " + s[1]+" " + s[2]
-			datetime.datetime.strptime(temp,'%I:%M%p %d %m')
+			temp = s[0] + " " + s[1] + " " + s[2]
+			timeObj[count] = datetime.datetime.strptime(temp,'%I:%M%p %d %m')
+			# print timeObj[count]
+			# print timeObj[count].second
 			if start:
-				currentMin    = s[0]
-				previousMin   = s[0]
+				currentMin    = timeObj[count].time()
+				previousMin   = timeObj[count].time()
+				# print currentMin
+				# print timeObj[count].minute
 
-				currentMonth  = s[2]
-				previousMonth = s[2]
+				currentMonth  = timeObj[count].month
+				previousMonth = timeObj[count].month
+				# print currentMonth
+				# print timeObj[count].month
 
-				currentDate   = s[1]
-				previousDate  = s[1]
+				currentDate   = timeObj[count].day
+				previousDate  = timeObj[count].day
+				# print currentDate
+				# print timeObj[count].day
 
 				currentUser   = s[4]
 				previousUser  = s[4]
+
 			else:
-				currentMin   = s[0]
-				currentDate  = s[1]
-				currentMonth = s[2]
+				currentMin   = timeObj[count].time()
+				currentDate  = timeObj[count].day
+				currentMonth = timeObj[count].month
 				currentUser  = s[4]
+				# print currentDate
+				# print timeObj[count].day
+				# print currentMonth
+				# print timeObj[count].month
+				# print currentMin
+				# print timeObj[count].time()
 
 			if (currentUser != previousUser):
 				if currentUser not in userList:
@@ -109,10 +127,17 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 					newUser = currentUser
 					newUser = User()
 					newUser.name = currentUser
+					newUser.userdateTime[newUser.userCount] = timeObj[count]
+					newUser.userCount += 1
+				else:
+					#keyerro
+
+
+
 					# print newUser.name
 
 			if (currentMin != previousMin):
-				previousMin = s[0]
+				previousMin = timeObj[count].time()
 				chatCountMin = 0
 			else:
 				chatCountMin += 1
@@ -120,8 +145,8 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 			
 			if (currentDate != previousDate):
 				chatperDaywithMin[previousDate] = chatperMin
-				output_file.write("%s"%chatperDaywithMin)
-				previousDate = s[1]	
+				# output_file.write("%s"%chatperDaywithMin)
+				previousDate = timeObj[count].day
 				chatCountDay  = 0
 			else:
 				chatCountDay += 1
@@ -129,7 +154,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 			
 			if (currentMonth != previousMonth):
 				#This code block reset all he coding after each month
-				previousMonth = s[2]
+				previousMonth = timeObj[count].month
 				chatCount     = 0
 				# print "chatting per month", chatperMonth
 			else:
@@ -137,12 +162,20 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 				chatperMonth[currentMonth] = chatCount
 			start  = False
 			count += 1 
-for user in User:
-	print "loop worked"
-	print User.name
-	# for k,v in chatperMin.items():
-	# 	if (v>mostChatpermin):
-	# 		mostChatpermin=v
-	# 		mostChatperminTime = k
-	# print "Most Chat per Minute = ", mostChatpermin
-	# print "Most Chat per Time = ", mostChatperminTime
+# for user in User:
+# 	print "loop worked"
+# 	print User.name
+	for k,v in chatperMin.items():
+		if (v>mostChatpermin):
+			mostChatpermin=v
+			mostChatperminTime = k
+	print "Most Chat per Minute = ", mostChatpermin
+	print "Most Chat per Time = ", mostChatperminTime
+
+	for user in User.__iter__(newUser):
+		for i in timeObj:
+			# print timeObj[i]
+			print newUser.userdateTime[i]
+			print newUser.name
+			print count
+			print userList
