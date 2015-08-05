@@ -33,10 +33,12 @@ sameUserSaying = 0
 output_file = open("Output.txt", "w")
 #function defination
 def testFun(self, name):
-	print "you are awesome %s" %(name)
+	# print "you are awesome %s" %(name)
+	pass
 
 def testFun2(self, name):
-	print "you are a hot chick  %s :P" %(name)
+	# print "you are a hot chick  %s :P" %(name)
+	pass
 #class for user1 object
 class user1(object):
 	asignFun = testFun
@@ -124,28 +126,52 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 				# print timeObj[count].time()
 
 			if (currentUser != previousUser):
-				print "Use Changed"
+				# print "Use Changed"
+				#if new user appears
+				# print " if started"
+				# print currentUser
+				# print previousUser
 				if currentUser not in userList:
 					userList.append(currentUser)
 					previousUser = currentUser
-					newUser[userNumber] = currentUser
 					newUser[userNumber] = User()
-					newUser[userNumber].name = currentUser
+					newUser[userNumber].userName = currentUser
 					newUser[userNumber].userdateTime[newUser[userNumber].userCount] = timeObj[count]
+					# print newUser[userNumber].userName
+					print "%s : %s"%(newUser[userNumber].userdateTime[newUser[userNumber].userCount],newUser[userNumber].userName)
 					newUser[userNumber].userCount += 1
 					userNumber += 1
+					# print "From if"
 				else:
-					#match current user with the list user name
+					#of user already exist
 					tmpUserNum = 0
 					for existingUser in userList:
 						for user in User.__iter__(newUser[tmpUserNum]):
 							# if contidion to chack temp user number with existing user
-							if (tmpUserNum<userNumber and  existingUser == newUser[tmpUserNum].name ):
+							if (tmpUserNum<userNumber and  existingUser == newUser[tmpUserNum].userName ):
 								newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount] = timeObj[count]
+								print "%s : %s"%(newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount],newUser[tmpUserNum].userName)
 								newUser[tmpUserNum].userCount += 1
 								tmpUserNum += 1
 			else:
-				#write else condition for condition when same user is saying something in continuation  
+				# print "From else"
+				# print "Current user :", currentUser
+				# print "previousUser :", previousUser
+				# print newUser
+				# print newUser[].userCount
+				
+				for user, val in newUser.items():
+					# print val.userCount
+					# print valuserName
+					# val.userCount += 1
+					# print val.userCount
+					pass 
+				#THIS PART of CODE is really FUCKED UP!
+				#FIx IT! Then project is done :P
+				#SOLUTION :- 
+				#write else condition for condition when same user is saying something in continuation 
+				#and assign User Count to the same user again so it will percisely count total number of 
+				#line said by each user.		
 				print"Same User is saything something"
 				sameUserSaying += 1
 
@@ -177,7 +203,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 			count += 1 
 # for user in User:
 # 	print "loop worked"
-# 	print User.name
+# 	print UseruserName
 	for k,v in chatperMin.items():
 		if (v>mostChatpermin):
 			mostChatpermin=v
@@ -187,15 +213,16 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 	tmpUserNum = 0
 	for user in User.__iter__(newUser[tmpUserNum]):
 		if (tmpUserNum < userNumber):
-			print newUser[tmpUserNum].name
+			print newUser[tmpUserNum].userName
 			print newUser[tmpUserNum].userCount
 			#print newUser[tmpUserNum].userdateTime
 			tmpUserNum += 1
 	print sameUserSaying
 
+
 			# for i in timeObj:
 			# 	# print timeObj[i]
 			# 	print newUser[userNumber].userdateTime[i]
-			# 	print newUser[userNumber].name
+			# 	print newUser[userNumber]userName
 			# 	print count
 			# 	print userList
