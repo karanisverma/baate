@@ -1,6 +1,8 @@
-"""This is class based implimentation of of wp.py python file of this project."""
-# refer it to make class itrable = http://stackoverflow.com/questions/739882/iterating-over-object-instances-of-a-given-class-in-python
-#NOTE : key error is occureing due to some redundent loop in program cause is still unkown to me.. will work on it tomorrow. :P
+"""This is THE Project NOW :D"""
+#Status: User Bug is fixed now have to perfect the 
+#NOTE : issue is resolved but still there is a bit of error with 44040 lines of data set i.e. there is difference ( 20752(says sublime) and 20745(says my code) for wiiki and similar in karan) in coint value.
+#TODO: resolve above issue by inputting smaller chunks of data at time :P it's going to be painful :'( but there is no other go :P
+
 import datetime
 import re
 
@@ -92,7 +94,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 			# print s #for debuggin
 			temp = s[0] + " " + s[1] + " " + s[2]
 			timeObj[count] = datetime.datetime.strptime(temp,'%I:%M%p %d %m')
-			print timeObj[count]
+			# print timeObj[count]
 			# print timeObj[count].second
 			if start:
 				currentMin    = timeObj[count].time()
@@ -138,27 +140,34 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 					newUser[userNumber] = User()
 					newUser[userNumber].userName = currentUser
 					newUser[userNumber].userdateTime[newUser[userNumber].userCount] = timeObj[count]
-					# print "%s : %s"%(newUser[userNumber].userdateTime[newUser[userNumber].userCount],newUser[userNumber].userName)
-					# print" %s = %s (from new user part)"%(newUser[userNumber].userName, newUser[userNumber].userCount)
-					print timeObj[count]
+					# print "%s : %s"%(newUser[userNumber].userdateTime[newUser[userNumber].userCount],newUseru[serNumber].userName)
+					#print" %s, %s = %s (from new user part)"%(timeObj[count],newUser[userNumber].userName, newUser[userNumber].userCount)
+					# print timeObj[count]
 					newUser[userNumber].userCount += 1
 					userNumber += 1
 					# print "From if"
-				else:
+				elif currentUser in userList:
 					#of user already exist
+					previousUser = currentUser
 					tmpUserNum = 0
-					previousUser = currentUser
-					previousUser = currentUser
-					for existingUser in userList:
-						for user in User.__iter__(newUser[tmpUserNum]):
-							# if contidion to chack temp user number with existing user
-							if (tmpUserNum<userNumber and  existingUser == newUser[tmpUserNum].userName ):
-								newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount] = timeObj[count]
-								print timeObj[count]
-								# print "%s : %s"%(newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount],newUser[tmpUserNum].userName)
-								# print" %s = %s (from existing user part)"%(newUser[tmpUserNum].userName, newUser[tmpUserNum].userCount)
-								newUser[tmpUserNum].userCount += 1
-								tmpUserNum += 1
+					for user in User.__iter__(newUser[tmpUserNum]):
+						# if contidion to chack temp user number with existing user
+						#print " currentUser = ",currentUser
+						# print " User [%s]= %s"%(tmpUserNum,newUser[tmpUserNum].userName)
+
+						if (tmpUserNum<userNumber and  currentUser == newUser[tmpUserNum].userName):
+							#print " IF condition passed and tempUser number is %s and userNumber is %s "%(tmpUserNum,userNumber)
+							newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount] = timeObj[count]
+							# print "%s : %s"%(newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount],newUser[tmpUserNum].userName)
+							#print" %s,%s = %s (from existing user part)"%(timeObj[count], newUser[tmpUserNum].userName, newUser[tmpUserNum].userCount)
+							newUser[tmpUserNum].userCount += 1
+							tmpUserNum += 1
+							#print
+						else:
+							#print " Current User and User[%s] did not matched"%(tmpUserNum)
+							tmpUserNum += 1
+							#print
+						
 			else:
 				# print "From else"
 				# print "Current user :", currentUser
@@ -175,8 +184,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 						# print "yay it matched"
 						# print "%s : %s and count is  %s"%(val.userdateTime[val.userCount],val.userName,val.userCount)
 						val.userdateTime[val.userCount]=timeObj[count]
-						print timeObj[count]
-						# print " %s = %s (from same user saying part)"%(val.userName, val.userCount)
+						#print " %s,%s = %s (from same user saying part)"%(val.userdateTime[val.userCount],val.userName, val.userCount)
 						val.userCount += 1
 				#THIS PART of CODE is really FUCKED UP!
 				#FIx IT! Then project is done :P
