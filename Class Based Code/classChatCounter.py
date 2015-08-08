@@ -186,13 +186,6 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 						val.userdateTime[val.userCount]=timeObj[count]
 						#print " %s,%s = %s (from same user saying part)"%(val.userdateTime[val.userCount],val.userName, val.userCount)
 						val.userCount += 1
-				#THIS PART of CODE is really FUCKED UP!
-				#FIx IT! Then project is done :P
-				#SOLUTION :- 
-				#write else condition for condition when same user is saying something in continuation 
-				#and assign User Count to the same user again so it will percisely count total number of 
-				#line said by each user.	
-
 				# print"Same User is saything something"
 				sameUserSaying += 1
 
