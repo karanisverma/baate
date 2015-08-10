@@ -6,7 +6,6 @@
 import datetime
 import re
 
-
 #variable declaration 
 timeObj = {}
 count = 0
@@ -33,8 +32,26 @@ userNumber = 0
 newUser = {}
 sameUserSaying = 0
 output_file = open("Output.txt", "w")
+matchObjType= False
+ex1 = 0
+
+def matchfun(line):
+	matchObj = re.match(r'(\d+:\d+)(pm|am) \d+ \d+ - \w+',line, re.M|re.I)
+	# return (matchObj)
+	matchObj2 = re.match(r'(\d+/\d+/\d+) \d+:\d+ (PM|AM) - \w+',line, re.M|re.I)
+	if matchObj:
+		matchObjType = True
+		return (matchObj, matchObjType)
+	elif matchObj2:
+		matchObjType = False
+		return (matchObj2, matchObjType)
+	else:
+		matchObjType = None
+		return (matchObj, matchObjType)
+
 #function defination
 def testFun(self, name):
+	
 	# print "you are awesome %s" %(name)
 	pass
 
@@ -79,60 +96,70 @@ class User(object):
 				yield user
 
 # Main busniess logic of program sort of main body
-with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
+with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 	for line in f:
 		##print line
 		line = line.replace(",", "")
 		line = line.replace("Apr", "4").replace("May", "5")
 		# print line
-		matchObj = re.match( r'(\d+:\d+)(pm|am) \d+ \d+ - \w+',line, re.M|re.I)
+		matchObj,matchObjType = matchfun(line)
 		if matchObj:
 			s = matchObj.group()		
 			# timeObj[count][count] = matchObj.group()
 			# print timeObj[count][count] #for debuggin
 			s = s.split()
-			# print s #for debuggin
-			temp = s[0] + " " + s[1] + " " + s[2]
-			timeObj[count] = datetime.datetime.strptime(temp,'%I:%M%p %d %m')
+			if matchObjType:
+	 			temp = s[0] + " " + s[1] + " " + s[2]
+	 			timeObj[count] = datetime.datetime.strptime(temp,'%I:%M%p %d %m')
+	 		else:
+	 			dateSplit = s[0] 
+	 			dateSplit = dateSplit.split('/')
+	 			dateSplit = s[1] + s[2] + " " + dateSplit[1] + " " + dateSplit[0]
+	 			timeObj[count] = datetime.datetime.strptime(dateSplit,'%I:%M%p %d %m')
+	 			
 			# print timeObj[count]
 			# print timeObj[count].second
 			if start:
 				currentMin    = timeObj[count].time()
 				previousMin   = timeObj[count].time()
 				# print currentMin
-				# print timeObj[count].minute
+				#print timeObj[count].minute
 
 				currentMonth  = timeObj[count].month
 				previousMonth = timeObj[count].month
 				# print currentMonth
-				# print timeObj[count].month
+				#print timeObj[count].month
 
 				currentDate   = timeObj[count].day
 				previousDate  = timeObj[count].day
 				# print currentDate
-				# print timeObj[count].day
+				#print timeObj[count].day
 
 				currentUser   = s[4]
+				currentUser   = currentUser.lower()
 				previousUser  = s[4]
+
 
 			else:
 				currentMin   = timeObj[count].time()
 				currentDate  = timeObj[count].day
 				currentMonth = timeObj[count].month
 				currentUser  = s[4]
+				currentUser  = currentUser.lower() 
 				# print currentDate
 				# print timeObj[count].day
 				# print currentMonth
 				# print timeObj[count].month
 				# print currentMin
 				# print timeObj[count].time()
-
+			"""This block will execute when chatting user will change"""
 			if (currentUser != previousUser or start == True):
 				# print "Use Changed"
 				#if new user appears
 				# print " if started"
 				# print currentUser
 				# print previousUser
+				"""This block will execute when user is NEW"""
 				if currentUser not in userList:
 					# print "new user!"
 					userList.append(currentUser)
@@ -140,6 +167,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 					newUser[userNumber] = User()
 					newUser[userNumber].userName = currentUser
 					newUser[userNumber].userdateTime[newUser[userNumber].userCount] = timeObj[count]
+
 					# print "%s : %s"%(newUser[userNumber].userdateTime[newUser[userNumber].userCount],newUseru[serNumber].userName)
 					#print" %s, %s = %s (from new user part)"%(timeObj[count],newUser[userNumber].userName, newUser[userNumber].userCount)
 					# print timeObj[count]
@@ -147,6 +175,8 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 					userNumber += 1
 					# print "From if"
 				elif currentUser in userList:
+					"""This block will execute when user is NOT new"""
+				
 					#of user already exist
 					previousUser = currentUser
 					tmpUserNum = 0
@@ -160,15 +190,20 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 							newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount] = timeObj[count]
 							# print "%s : %s"%(newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount],newUser[tmpUserNum].userName)
 							#print" %s,%s = %s (from existing user part)"%(timeObj[count], newUser[tmpUserNum].userName, newUser[tmpUserNum].userCount)
+							# print newUser[tmpUserNum].userdateTime[newUser[tmpUserNum].userCount]
 							newUser[tmpUserNum].userCount += 1
 							tmpUserNum += 1
+
 							#print
 						else:
 							#print " Current User and User[%s] did not matched"%(tmpUserNum)
+							
 							tmpUserNum += 1
+
 							#print
-						
+			
 			else:
+				"""This block will execute when previous User is saying something in continuation in next line """			
 				# print "From else"
 				# print "Current user :", currentUser
 				# print "previousUser :", previousUser
@@ -215,7 +250,7 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 				chatperMonth[currentMonth] = chatCount
 			start  = False
 			count += 1 
-# for user in User:
+# for user in User 
 # 	print "loop worked"
 # 	print UseruserName
 	for k,v in chatperMin.items():
@@ -225,12 +260,20 @@ with open ("B:\work\whatsapp_app\_smallinput.txt","r+") as f:
 	# print "Most Chat per Minute = ", mostChatpermin
 	# print "Most Chat per Time = ", mostChatperminTime
 	tmpUserNum = 0
+	u = 0
 	for user in User.__iter__(newUser[tmpUserNum]):
 		if (tmpUserNum < userNumber):
 			print newUser[tmpUserNum].userName
 			print newUser[tmpUserNum].userCount
+			val = newUser[tmpUserNum].userCount - 1
+			# while(val>1):
+			# 	print newUser[tmpUserNum].userdateTime[val]
+			# 	val -= 1
+
+			# output_file.write("%s"%forprocessing )
 			#print newUser[tmpUserNum].userdateTime
 			tmpUserNum += 1
+			u +=1
 	# print sameUserSaying
 
 			# for i in timeObj:
