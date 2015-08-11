@@ -11,6 +11,20 @@ timeObj = {}
 count = 0
 start = True
 count2 = 0
+
+hrcount = 0
+tmpMin = 0
+tmpHour = 0
+tmpDate = 0
+tmpMonth= 0
+mostchatperHr = 0
+mostchatperDay = 0
+mostchatperMonth = 0
+daycount = 0
+monthcount= 0
+perdaychat = 0
+perhrchat = 0
+permonthchat = 0
 n = 0
 start = True
 currentMonth = 0 
@@ -122,6 +136,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 			if start:
 				currentMin    = timeObj[count].time()
 				previousMin   = timeObj[count].time()
+
 				# print currentMin
 				#print timeObj[count].minute
 
@@ -139,6 +154,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				currentUser   = currentUser.lower()
 				previousUser  = s[4]
 
+				
 
 			else:
 				currentMin   = timeObj[count].time()
@@ -150,7 +166,56 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				# print timeObj[count].day
 				# print currentMonth
 				# print timeObj[count].month
-				# print currentMin
+			Min = str(currentMin).split(':')
+			Day = str(currentDate)
+			Month = str(currentMonth)
+			# print Min.split(':')
+			# print Min[0]
+			if Min[0] != tmpHour:
+				# print "hr. changed"	
+				tmpHour = Min[0]
+				hrcount += 1
+				#print perhrchat
+				if( perhrchat > mostchatperHr ):
+					# print "in loop"
+					mostchatperHr = perhrchat
+					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
+				perhrchat = 0
+			else:
+				perhrchat += 1
+
+			if Day != tmpDate:
+				tmpDate = Day
+				daycount += 1
+				# print daycount
+				# print perdaychat
+				if (perdaychat > mostchatperDay):
+					mostchatperDay = perdaychat
+					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
+					# print " ",mostchatperDay
+				perdaychat = 0
+			else:
+				perdaychat += 1
+
+			if Month != tmpMonth:
+				print "month: ", Month
+				print "tmp Month:",tmpMonth
+				print "permonthchat: ",permonthchat
+				print ""
+				tmpMonth = Month
+				monthcount += 1
+				if (permonthchat > mostchatperMonth):
+					mostchatperMonth = permonthchat
+					# print "Month: %s"%(currentMonth)
+					# print "Number of chat", mostchatperMonth
+					permonthchat = 0
+			else:
+				permonthchat += 1
+
+
+			
+
+
 				# print timeObj[count].time()
 			"""This block will execute when chatting user will change"""
 			if (currentUser != previousUser or start == True):
@@ -223,7 +288,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 						val.userCount += 1
 				# print"Same User is saything something"
 				sameUserSaying += 1
-
+			#block of code to count chat per hr
 			if (currentMin != previousMin):
 				previousMin = timeObj[count].time()
 				chatCountMin = 0
@@ -231,6 +296,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				chatCountMin += 1
 				chatperMin[currentMin] = chatCountMin;
 			
+			#block of code to count chat per date
 			if (currentDate != previousDate):
 				chatperDaywithMin[previousDate] = chatperMin
 				# output_file.write("%s"%chatperDaywithMin)
@@ -240,6 +306,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				chatCountDay += 1
 				chatperDay[currentDate] = chatCountDay;
 			
+			#block of code to count chats per month
 			if (currentMonth != previousMonth):
 				#This code block reset all he coding after each month
 				previousMonth = timeObj[count].month
