@@ -207,12 +207,14 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				Hrtmpchat = 0
 				hrcount += 1
 				#print perhrchat
-				if( perhrchat > mostchatperHr ):
-					mostchatperHr = perhrchat
+				
 					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
 			else:
 				Hrtmpchat += 1
-				perhrchat[hrcount] = Hrtmpchat 
+				perhrchat[hrcount] = Hrtmpchat
+				if( perhrchat[hrcount] > mostchatperHr ):
+					mostchatperHr = perhrchat[hrcount]
+					mcphDate = str(currentMin) + str(currentDate) + str(currentMonth)
 #------------------------------------------------------------------------------
 			if Day != tmpDate:
 				tmpDate = Day
@@ -221,8 +223,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				daychatmin = 0
 				# print daycount
 				# print perdaychat
-				if (perdaychat > mostchatperDay):
-					mostchatperDay = perdaychat
+				
 					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
 					# print " ",mostchatperDay
 			else:
@@ -233,19 +234,24 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 	 				chatminperday[daycount] = daychatmin
 				daytmpchat += 1
 				perdaychat[daycount] = daytmpchat
+				if (perdaychat[daycount] > mostchatperDay):
+					mostchatperDay = perdaychat[daycount]
+					mcpdDate = str(currentMin) + str(currentDate) + str(currentMonth) 
 #--------------------------------------------------------------------------
 			
 			if Month != tmpMonth:
 				tmpMonth = Month
 				monthcount += 1
 				tmpchat = 0
-				if (permonthchat > mostchatperMonth):
-					mostchatperMonth = permonthchat
+				
 					# print "Month: %s"%(currentMonth)
 					# print "Number of chat", mostchatperMonth
 			else:
 				tmpchat += 1
 				permonthchat[monthcount]= tmpchat
+				if (permonthchat[monthcount] > mostchatperMonth):
+					mostchatperMonth = permonthchat[monthcount]
+					mcpmDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth)
 
 
 				# print timeObj[count].time()
@@ -328,17 +334,25 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 # 	print "loop worked"
 # 	print UseruserName
 	print "Per Month "
-	# print permonthchat
+	print permonthchat
 	print "Per Day"
-	# print perdaychat
+	print perdaychat
 	print "Per hour"
-	# print perhrchat
+	print perhrchat
 	print "Chat min per day"
 	print chatminperday
 	print "total chatting min"
 	print chatmin
-	for k,v in wcount.items():
-		print k, v
+	print "most chat per month = ",mostchatperMonth
+	print mcpmDate
+	print "most chat per day = ",mostchatperDay
+	print mcpdDate
+	print "most chat per hour = ",mostchatperHr
+	print mcphDate
+
+
+	# for k,v in wcount.items():
+	# 	print k, v
 	for k,v in chatperMin.items():
 		if (v>mostChatpermin):
 			mostChatpermin=v
