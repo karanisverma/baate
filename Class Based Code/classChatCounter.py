@@ -5,11 +5,14 @@
 
 import datetime
 import re
+from collections import Counter
 
 #variable declaration 
 timeObj = {}
 count = 0
 chatmin = 0
+wcount = {}
+chatwordlist ={}
 daychatmin = 0
 start = True
 count2 = 0
@@ -58,17 +61,19 @@ ex1 = 0
 
 def matchfun(line):
 	matchObj = re.match(r'(\d+:\d+)(pm|am) \d+ \d+ - \w+',line, re.M|re.I)
+	splitObj = re.split(r'(\d+:\d+)(pm|am) \d+ \d+ - \w+', line)
 	# return (matchObj)
 	matchObj2 = re.match(r'(\d+/\d+/\d+) \d+:\d+ (PM|AM) - \w+',line, re.M|re.I)
+	splitObj2 = re.split(r'(\d+/\d+/\d+) \d+:\d+ (PM|AM) - \w+',line)
 	if matchObj:
 		matchObjType = True
-		return (matchObj, matchObjType)
+		return (matchObj, matchObjType,splitObj)
 	elif matchObj2:
 		matchObjType = False
-		return (matchObj2, matchObjType)
+		return (matchObj2, matchObjType,splitObj2)
 	else:
 		matchObjType = None
-		return (matchObj, matchObjType)
+		return (matchObj, matchObjType,splitObj)
 
 #function defination
 def testFun(self, name):
@@ -125,8 +130,15 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 		line = line.replace(",", "")
 		line = line.replace("Apr", "4").replace("May", "5")
 		# print line
-		matchObj,matchObjType = matchfun(line)
-		
+		matchObj, matchObjType, splitObj = matchfun(line)
+		wordlist = splitObj[len(splitObj)-1].split()
+		for w in wordlist:
+			if w not in wcount:
+				wcount[w] = 1
+			else:
+				wcount[w] +=1
+		#words = Counter(w for w in splitObj[len(splitObj)-1].split())
+
 		if matchObj:
 			s = matchObj.group()		
 			# timeObj[count][count] = matchObj.group()
@@ -325,6 +337,8 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 	print chatminperday
 	print "total chatting min"
 	print chatmin
+	for k,v in wcount.items():
+		print k, v
 	for k,v in chatperMin.items():
 		if (v>mostChatpermin):
 			mostChatpermin=v
