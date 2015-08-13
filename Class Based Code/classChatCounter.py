@@ -124,12 +124,18 @@ class User(object):
 # Main busniess logic of program sort of main body
 
 	
-with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\chat1.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\chat2.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\chat3.txt","r+") as f:
+with open ("B:\work\whatsapp_app\chatdb\chat4.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\Family.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\HUIT.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\kh.txt","r+") as f:
 	for line in f:
 		##print line
 		line = line.replace(",", "")
 		line = line.replace("Apr", "4").replace("May", "5")
-		# print line
 		matchObj, matchObjType, splitObj = matchfun(line)
 		wordlist = splitObj[len(splitObj)-1].split()
 		for w in wordlist:
@@ -138,7 +144,6 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 			else:
 				wcount[w] +=1
 		#words = Counter(w for w in splitObj[len(splitObj)-1].split())
-
 		if matchObj:
 			s = matchObj.group()		
 			# timeObj[count][count] = matchObj.group()
@@ -150,8 +155,13 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 	 		else:
 	 			dateSplit = s[0] 
 	 			dateSplit = dateSplit.split('/')
-	 			dateSplit = s[1] + s[2] + " " + dateSplit[1] + " " + dateSplit[0]
-	 			timeObj[count] = datetime.datetime.strptime(dateSplit,'%I:%M%p %d %m')
+	 			print dateSplit
+	 			try:
+	 				dateSplit1 = s[1] + s[2] + " " + dateSplit[1] + " " + dateSplit[0]
+	 				timeObj[count] = datetime.datetime.strptime(dateSplit1,'%I:%M%p %d %m')
+	 			except ValueError:
+	 				dateSplit2 = s[1] + s[2] + " " + dateSplit[0] + " " + dateSplit[1]
+	 				timeObj[count] = datetime.datetime.strptime(dateSplit2,'%I:%M%p %d %m')
 	 		# print "tmptime = ", tmptime
 	 		# print "timeObj = ", timeObj
 	 		# print ""
@@ -214,7 +224,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				perhrchat[hrcount] = Hrtmpchat
 				if( perhrchat[hrcount] > mostchatperHr ):
 					mostchatperHr = perhrchat[hrcount]
-					mcphDate = str(currentMin) + str(currentDate) + str(currentMonth)
+					mcphDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth)
 #------------------------------------------------------------------------------
 			if Day != tmpDate:
 				tmpDate = Day
@@ -236,7 +246,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 				perdaychat[daycount] = daytmpchat
 				if (perdaychat[daycount] > mostchatperDay):
 					mostchatperDay = perdaychat[daycount]
-					mcpdDate = str(currentMin) + str(currentDate) + str(currentMonth) 
+					mcpdDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth) 
 #--------------------------------------------------------------------------
 			
 			if Month != tmpMonth:
@@ -321,6 +331,7 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 					if(val.userName == currentUser):
 						# print "yay it matched"
 						# print "%s : %s and count is  %s"%(val.userdateTime[val.userCount],val.userName,val.userCount)
+						# print "User Count :", val.userCount
 						val.userdateTime[val.userCount]=timeObj[count]
 						#print " %s,%s = %s (from same user saying part)"%(val.userdateTime[val.userCount],val.userName, val.userCount)
 						val.userCount += 1
@@ -361,19 +372,19 @@ with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 	# print "Most Chat per Time = ", mostChatperminTime
 	tmpUserNum = 0
 	
-	for user in User.__iter__(newUser[tmpUserNum]):
-		if (tmpUserNum < userNumber):
-			print newUser[tmpUserNum].userName
-			print newUser[tmpUserNum].userCount
-			val = newUser[tmpUserNum].userCount - 1
-			# while(val>1):
-			# 	print newUser[tmpUserNum].userdateTime[val]
-			# 	val -= 1
+	while(tmpUserNum<userNumber):
+		print newUser[tmpUserNum].userName
+		print newUser[tmpUserNum].userCount
+		val = newUser[tmpUserNum].userCount - 1
+		# while(val>1):
+		# 	print newUser[tmpUserNum].userdateTime[val]
+		# 	val -= 1
 
-			# output_file.write("%s"%forprocessing )
-			#print newUser[tmpUserNum].userdateTime
-			tmpUserNum += 1
-			
+		# output_file.write("%s"%forprocessing )
+		#print newUser[tmpUserNum].userdateTime
+		tmpUserNum += 1
+		
+
 	# print sameUserSaying
 
 			# for i in timeObj:
