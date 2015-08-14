@@ -124,11 +124,11 @@ class User(object):
 # Main busniess logic of program sort of main body
 
 	
-# with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
+with open ("B:\work\whatsapp_app\_biginput.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\chat1.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\chat2.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\chat3.txt","r+") as f:
-with open ("B:\work\whatsapp_app\chatdb\chat4.txt","r+") as f:
+# with open ("B:\work\whatsapp_app\chatdb\chat4.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\Family.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\HUIT.txt","r+") as f:
 # with open ("B:\work\whatsapp_app\chatdb\kh.txt","r+") as f:
@@ -155,7 +155,7 @@ with open ("B:\work\whatsapp_app\chatdb\chat4.txt","r+") as f:
 	 		else:
 	 			dateSplit = s[0] 
 	 			dateSplit = dateSplit.split('/')
-	 			print dateSplit
+	 			# print dateSplit
 	 			try:
 	 				dateSplit1 = s[1] + s[2] + " " + dateSplit[1] + " " + dateSplit[0]
 	 				timeObj[count] = datetime.datetime.strptime(dateSplit1,'%I:%M%p %d %m')
@@ -211,20 +211,22 @@ with open ("B:\work\whatsapp_app\chatdb\chat4.txt","r+") as f:
 			# print Min.split(':')
 			# print Min[0]
 #--------------------------------------------------------------------------------
+			
 			if Min[0] != tmpHour:
+				print "%s!=%s"%(Min[0], tmpHour)
 				# print "hr. changed"	
 				tmpHour = Min[0]
+				perhrchat[hrcount] = Hrtmpchat
 				Hrtmpchat = 0
 				hrcount += 1
 				#print perhrchat
-				
 					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
 			else:
-				Hrtmpchat += 1
 				perhrchat[hrcount] = Hrtmpchat
 				if( perhrchat[hrcount] > mostchatperHr ):
 					mostchatperHr = perhrchat[hrcount]
 					mcphDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth)
+				Hrtmpchat += 1
 #------------------------------------------------------------------------------
 			if Day != tmpDate:
 				tmpDate = Day
