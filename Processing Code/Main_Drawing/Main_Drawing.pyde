@@ -39,36 +39,34 @@ def vbargraph(xlimit,y,margin,h,w,dict):
         i += 1
 
 def pointGraph(x, y, margin, height, width, dict):
-    global j
-    perMonthMax=0
-    global monthList
-    global pointList
     s=True 
     xp=0 
     yp=0
+    c=0    
+    perMonthMax=0
+    global j
+    global monthList
+    global pointList
     global xval
     global yval
     global zval
-    c=0
-    
-    monthList = dictToList(monthList,dict)
-    
+    monthList = dictToList(monthList,dict)    
     for months, val in dict.items():
         if val > perMonthMax:
             perMonthMax = val
     #for plotting point in graph. 
     beginShape()
     curveVertex(xp, yp);
+    xUnit = width/len(dict)
+    yUnit = height/perMonthMax
     for z in monthList:
-        xUnit = width/len(dict)
-        yUnit = height/(1.25*perMonthMax)
-        xp +=x+xUnit
-        yp +=z*yUnit
-#         yp = height - yp
-        text(z,xp,yp+30)
+        xp +=xUnit
+        yp =z*yUnit
+        yp = height - yp
         #line(x1,y1,x2,y2)
         fill(10, 10,10, 0.3)
         curveVertex(xp, yp);
+        text(z,xp,yp+30)
 #         line(x+10,height+y,x+10,-height+y)
 #         line(x+10,height+y,x+width,height+y)
         stroke(0)
@@ -92,7 +90,7 @@ def pointGraph(x, y, margin, height, width, dict):
             s = False 
             c+=1
         else:
-            println( "line(%s, %s, %s, %s)"%(xlast, ylast, x, y))
+#             println( "line(%s, %s, %s, %s)"%(xlast, ylast, x, y))
 #             line(int(xlast), ylast, x, y)
             try:
                 pass
@@ -111,10 +109,10 @@ def bkg():
             bg = loadImage("heart_normal.jpg")
             background(bg)
             bgAni = False
-            print("If part")
+#             print("If part")
             delay(500)
         else:
-            print("Else part")
+#             print("Else part")
             bg1 = loadImage("heart_pumping.jpg")
             background(bg1)
             bgAni = True
@@ -127,9 +125,9 @@ def setup():
     textFont(f,12); 
 def draw():
     bkg()
-#     pointGraph(0,-600, 10, 400, 1241, perMonth)
-    vbargraph(0,5,8,10,10,perDay)
-    pointGraph(0,-450, 10, 400, 1841, timeDay)
+    pointGraph(0,-600, 10, 400, 1241, perMonth)
+#     vbargraph(0,5,8,10,10,perDay)
+#     pointGraph(0,-450, 10, 400, 1841, timeDay)
 #     pointGraph(x, y, margin, height, width, dict)
 #     bargraph(10,300,8,25,10,perDay)
     

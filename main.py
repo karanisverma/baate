@@ -8,6 +8,9 @@ import re
 from collections import Counter
 
 #variable declaration 
+tmpMonthList = [None]*12
+tmpdayList =  [None]*90
+tmpPerHrList = [None]*1000
 timeObj = {}
 count = 0
 wc = 0
@@ -254,7 +257,8 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 				currentUser   = currentUser.lower()
 				previousUser  = s[4]
 
-				tmpMonth = currentMonth
+				tmpMonth = str(currentMonth)
+				tmpDate  = str(currentDate)
 				
 
 			else:
@@ -273,17 +277,20 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 			# print Min.split(':')
 			# print Min[0]
 #----------------------------MONTH----------------------------------------------------
+
 			if Month != tmpMonth:
 				tmpMonth = Month
 				monthcount += 1
 				tmpchat = 0
-				
+					
 					# print "Month: %s"%(currentMonth)
 					# print "Number of chat", mostchatperMonth
 			else:
 				tmpchat += 1
 				permonthchat[monthcount]= tmpchat
 				everything[monthcount]=tmpchat
+				tmpMonthList[monthcount] = tmpchat
+
 				if (permonthchat[monthcount] > mostchatperMonth):
 					mostchatperMonth = permonthchat[monthcount]
 					mcpmDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth)
@@ -311,6 +318,7 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 				daytmpchat += 1
 				perdaychat[daycount] = daytmpchat
 				days[currentMonth][currentDate] = daytmpchat
+				tmpdayList[daycount]  = daytmpchat
 				if (perdaychat[daycount] > mostchatperDay):
 					mostchatperDay = perdaychat[daycount]
 					mcpdDate = str(currentMin) +" "+ str(currentDate) +" "+ str(currentMonth) 
@@ -322,6 +330,7 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 				# print "hr. changed"	
 				tmpHour = Min[0]
 				perhrchat[hrcount] = Hrtmpchat
+				tmpPerHrList[hrcount] =Hrtmpchat
 				year[currentMonth][currentDate][Min[0]] = Hrtmpchat
 				Hrtmpchat = 0
 				hrcount += 1
@@ -329,6 +338,7 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 					# print " %s, Date: %s, Month: %s"%(currentMin,currentDate,currentMonth)
 			else:
 				perhrchat[hrcount] = Hrtmpchat
+				tmpPerHrList[hrcount] =Hrtmpchat
 				year[currentMonth][currentDate][Min[0]] = Hrtmpchat
 				# everything[monthcount][daycount][hrcount]=Hrtmpchat
 				# everything[monthcount][daycount][hrcount]=Hrtmpchat
@@ -419,8 +429,19 @@ with open ("B:\work\whatsapp_app\chatdb\_biginput.txt","r+") as f:
 #   for user in User 
 # 	print "loop worked"
 # 	print UseruserName
-	# print "Per Month "
-	# print permonthchat
+	print "Per Month "
+	print permonthchat
+	print "Per Month List"
+	print tmpMonthList
+	print "Per Day List"
+	print tmpdayList
+	print "Per Day Dict"
+	print perdaychat
+	"""NOTE:- There is something unwanted in per hr chat dict"""
+	print "Per Hr Chat List"
+	print tmpPerHrList
+	print "Per Hr Chat Dict"
+	print perhrchat
 	# print "Per Day"
 	# print perdaychat
 	# print "Per hour"
