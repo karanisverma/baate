@@ -10,8 +10,7 @@ Uses whatsapp backup email as input file and provide following output
   5. It also Creates bar graph of chattting history on the basis of month, day and year(Using processing).
 Currently working on the make graph more interactive. 
 
-2.Useage
-----------------------------------------------------------------
+Useage
   1. Edit what app text file path in main.py according to your file location
   2. Run the proramm in command prompt and copy the generated list
   3. Replace the list to the main drawing file which is located in main drawing section in processing ide in python mode(yes you   have to download processing and install python mode for getting graph)
